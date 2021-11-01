@@ -8,9 +8,6 @@ module.exports = (server) => {
   const io = require('socket.io')(server, {
     cors: {
       origin: "*",
-      methods: ["GET", "POST"],
-      allowedHeaders: ["rtc-app-header"],
-      credentials: true
     }
   });
 
@@ -34,11 +31,14 @@ module.exports = (server) => {
     })
 
     socket.on('msgToClientsOfMyRoom', req => {
+      console.log(req)
       req.createdAt = Date.now();
       io.to(req.roomName).emit('msgToClientsOfMyRoom', req)
     })
 
     socket.on('joinToRoom', (req) => {
+
+      console.log(req)
 
       if(req.whoAmI === 'admin') {
         socket.emit('allRomes', service.rooms)

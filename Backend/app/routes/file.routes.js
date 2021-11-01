@@ -27,7 +27,7 @@ module.exports = app => {
           service.serverSocket.emit('newFile', fileName);  
         }, 1000);
         return res.send({
-          success: true
+          fileName: fileName
         });
       }
   })
