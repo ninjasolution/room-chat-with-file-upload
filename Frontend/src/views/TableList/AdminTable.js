@@ -82,7 +82,7 @@ export default function AdminTable() {
               tableHeaderColor="primary"
               tableHead={["From", "Date", "Content", "action"]}
               tableData={
-                files.map(m => ([m.split('-')[0], m.split('-')[1].split('.')[0], <a href="#"  onClick={() => toggle(`${BaseURL}/api/file/${m}`)}><img src={`${BaseURL}/api/file/${m}`} width={50} height={50} className="rounded-circle" alt={m}/></a>, <MDBBtn color="red" vari onClick={() => onFileDelete(m)}>Delete</MDBBtn>]))
+                files.map(m => ([m.split('-')[0], `${m.split('-')[1]}/${m.split('-')[2]}/${m.split('-')[3]} ${m.split('-')[4]}:${m.split('-')[5]}:${m.split('-')[6].split('.')[0]}`, <a href="#"  onClick={() => toggle(`${BaseURL}/api/file/${m}`)}><img src={`${BaseURL}/api/file/${m}`} width={50} height={50} className="rounded-circle" alt={m}/></a>, <MDBBtn color="red" vari onClick={() => onFileDelete(m)}>Delete</MDBBtn>]))
               }
             />
           </CardBody>

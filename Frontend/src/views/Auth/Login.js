@@ -76,9 +76,9 @@ export default function ({ history }) {
               </MDBCardHeader>
               <form>
                 <div className="grey-text">
-                  { whoAmI === 'user' ?  <MDBInput label="Type module name" icon="envelope" group type="text" validate error="wrong" success="right" onChange={e => setroomName(e.target.value)}/> : null}
+                  { whoAmI === 'user' ?  <MDBInput label="Type module name" icon="users" group type="text" validate error="wrong" success="right" onChange={e => setroomName(e.target.value)}/> : null}
                   
-                  <MDBInput label="Type your name" icon="lock" group type="text" validate onChange={e => setUserName(e.target.value)}/>
+                  <MDBInput label="Type your name" icon="user" group type="text" validate onChange={e => setUserName(e.target.value)}/>
                   <MDBInput label="Type password" icon="lock" group type="password" validate onChange={e => setPassword(e.target.value)}/>
                   { 
                     whoAmI === 'user' ? 

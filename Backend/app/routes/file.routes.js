@@ -16,11 +16,9 @@ module.exports = app => {
     
       } else {
 
-        console.log(req.file)
-
         const words = req.file.originalname.split('.');
         const fileType = words[words.length-1];
-        const fileName = `${req.params.roomName}-${new Date().getMonth()}M ${new Date().getDate()}D ${new Date().getFullYear()}Y ${new Date().getHours()}H ${new Date().getMinutes()}M ${new Date().getSeconds()}S.${fileType}`;
+        const fileName = `${req.params.roomName}-${new Date().getDate()}-${new Date().getMonth()}-${new Date().getFullYear()}-${new Date().getHours()}-${new Date().getMinutes()}-${new Date().getSeconds()}.${fileType}`;
 
         setTimeout(() => {
           fs.rename('./files/'+ req.file.originalname, './files/'+fileName, function(err) {

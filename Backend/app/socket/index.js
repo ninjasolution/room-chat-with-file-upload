@@ -45,9 +45,9 @@ module.exports = (server) => {
         return;
       }
 
-      socket.join(req.roomName)
       const selectedRoom = service.rooms.find(r => r.name === req.roomName);
       if(typeof selectedRoom === "undefined" || selectedRoom === null) return;
+      socket.join(req.roomName)
       req.socketId = socket.id;
       selectedRoom.clients.push(req);
       io.to(selectedRoom.name).emit("changedRoom", selectedRoom)
