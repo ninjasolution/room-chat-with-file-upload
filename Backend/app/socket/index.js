@@ -31,7 +31,6 @@ module.exports = (server) => {
     })
 
     socket.on('msgToClientsOfMyRoom', req => {
-      console.log(req)
       req.createdAt = Date.now();
       io.to(req.roomName).emit('msgToClientsOfMyRoom', req)
     })
@@ -50,6 +49,8 @@ module.exports = (server) => {
       socket.join(req.roomName)
       req.socketId = socket.id;
       selectedRoom.clients.push(req);
+      socket.emit('loginSuccessed', true);
+      
       io.to(selectedRoom.name).emit("changedRoom", selectedRoom)
     })
 
