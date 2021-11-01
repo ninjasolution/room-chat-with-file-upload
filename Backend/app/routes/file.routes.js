@@ -40,8 +40,8 @@ module.exports = app => {
 
   app.delete('/api/file/:fileName', (req, res) => {
     fs.unlink(`./files/${req.params.fileName}`, (err) => {
-      if(err) res.status(500).send(err);
-      res.status(200).send('success');
+      if(err) return res.status(500).send(err);
+      return res.status(200).send('success');
     })
   })
 
@@ -56,28 +56,10 @@ const storage = multer.diskStorage({
     filename: (req, file, cb) => {
 
       cb(null, file.originalname);
-      
     }
 });
 
 const upload = multer({storage: storage});
 
-function getFileType(file) {
-  var filetype = '';
-  if(file.mimetype === 'video/mp4') {
-    filetype = 'mp4';
-  }
-  if(file.mimetype === 'image/png') {
-    filetype = 'png';
-  }
-  if(file.mimetype === 'image/jpeg') {
-    filetype = 'jpg';
-  }
-  if(file.mimetype === 'image/gif') {
-    filetype = 'gif';
-  }
-
-  return filetype;
-}
 
 
