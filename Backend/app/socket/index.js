@@ -45,13 +45,14 @@ module.exports = (server) => {
       }
 
       const selectedRoom = service.rooms.find(r => r.name === req.roomName);
-      if(typeof selectedRoom === "undefined" || selectedRoom === null) return;
+      if(typeof selectedRoom === "undefined" || selectedRoom === null) return socket.emit('loginFailed', true);
       socket.join(req.roomName)
       req.socketId = socket.id;
       selectedRoom.clients.push(req);
       socket.emit('loginSuccessed', true);
       
       io.to(selectedRoom.name).emit("changedRoom", selectedRoom)
+      io.to(selectedRoom.name).emit("allRomes", service.rooms)
     })
 
     socket.on('loadFiles', e => {
@@ -74,6 +75,7 @@ module.exports = (server) => {
 
     socket.on('deleteRoom', roomName => {
       service.removeRoom(roomName);
+      io.to(roomName).emit('deletedYourRoom', true);
     })
 
     io.of("/").adapter.on("create-room", (room) => {
@@ -100,6 +102,7 @@ module.exports = (server) => {
       if(typeof selectedRoom === "undefined" || selectedRoom === null) return;
 
       io.to(selectedRoom.name).emit('changedRoom', service.rooms.find(r => r.name === selectedRoom.name))
+      io.to(selectedRoom.name).emit("allRomes", service.rooms)
       console.log('disconnected')
     })
     

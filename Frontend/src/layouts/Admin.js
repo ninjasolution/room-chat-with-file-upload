@@ -12,7 +12,8 @@ import logo from "assets/img/new_logo.png";
 import TableList from "views/TableList/AdminTable";
 import Searchstyles from "assets/jss/material-dashboard-react/components/headerLinksStyle.js";
 import { useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
+import UserTable from "views/TableList/UserTable";
 
 const useSeachStyles = makeStyles(Searchstyles);
 
@@ -36,6 +37,7 @@ export default function Admin({ ...rest }) {
   const searchClasses = useSeachStyles();
   const [ msgContent, setmsgContent ] = useState('')
   const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
     if(typeof user === "undefined" || user === null) {
@@ -104,13 +106,17 @@ export default function Admin({ ...rest }) {
       />
       <div className={classes.mainPanel} ref={mainPanel}>
         {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
-        {
           <div className={classes.content}>
-            <div className={classes.container}>{
-            <TableList/>
-            }</div>
+            <div className={classes.container}>
+            {
+              location.pathname.split('/')[3] === 'all' && <TableList/>
+            }
+            
+            {
+              location.pathname.split('/')[3] !== 'all' && <UserTable/>
+            }
+            </div>
           </div>
-         }
      </div>
     
      {/* <MDBContainer style={{ position: "fixed", zIndex: "4", bottom: "20px", width: '400px', height: '50px', right: '50px', backgroundColor: '#4f4f4ff5', borderRadius: '7px', padding: '10px' }}>

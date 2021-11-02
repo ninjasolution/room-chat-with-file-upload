@@ -76,6 +76,7 @@ export default function Sidebar(props ) {
         const whiteFontClasses = classNames({
           [" " + classes.whiteFont]: activeRoute(prop.layout + prop.path),
         });
+
         return (
           <NavLink
             to={`${prop.layout}/module/${prop.name}`}
@@ -177,6 +178,12 @@ export default function Sidebar(props ) {
                   <MDBBtn tag="a" size="sm" circle={true} gradient="purple" onClick={() => deleteRoom()}>
                     <MDBIcon icon="trash" size="lg"/>
                   </MDBBtn>
+                  <Link to={'/admin/module/all'}>
+                    <MDBBtn tag="a" size="sm" circle={true} gradient="purple">
+                      <MDBIcon icon="file-image" size="lg"/>
+                    </MDBBtn>
+                  </Link>
+                  
                 </MDBContainer>
               )
                : null
