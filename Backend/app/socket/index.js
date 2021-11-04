@@ -17,12 +17,12 @@ module.exports = (server) => {
   
   io.sockets.on("connection", socket => {
   
-    console.log('a user connected')
+    console.log('A user is connected')
     
     socket.on('createRoom', (req) => {
       service.createRoom(req.roomName, req.password, socket);
       socket.join(req.roomName)
-    })
+    });
 
     socket.on('setStop', req => {
       service.isStop = req.state;
@@ -37,8 +37,6 @@ module.exports = (server) => {
 
     socket.on('joinToRoom', (req) => {
 
-      console.log(req)
-
       if(req.whoAmI === 'admin') {
         socket.emit('allRomes', service.rooms)
         return;
@@ -46,7 +44,14 @@ module.exports = (server) => {
 
       const selectedRoom = service.rooms.find(r => r.name === req.roomName);
       if(typeof selectedRoom === "undefined" || selectedRoom === null) return socket.emit('loginFailed', true);
-      if(selectedRoom.password !== req.password) return;
+      if(selectedRoom.password !== req.password) return socket.emit('loginFailed', true);
+      const selectedUser = selectedRoom.clients.find(c => c.userName === req.userName);
+
+      if(selectedUser) {
+        socket.emit('existUser', true);
+        return;
+      }
+
       socket.join(req.roomName)
       req.socketId = socket.id;
       selectedRoom.clients.push(req);
