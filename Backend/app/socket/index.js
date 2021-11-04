@@ -46,6 +46,7 @@ module.exports = (server) => {
 
       const selectedRoom = service.rooms.find(r => r.name === req.roomName);
       if(typeof selectedRoom === "undefined" || selectedRoom === null) return socket.emit('loginFailed', true);
+      if(selectedRoom.password !== req.password) return;
       socket.join(req.roomName)
       req.socketId = socket.id;
       selectedRoom.clients.push(req);
@@ -87,6 +88,7 @@ module.exports = (server) => {
     });
 
     socket.on('disconnect', () => {
+      socket.emit('isDisconnected', true);
       
       let selectedRoom = null;
       service.rooms = service.rooms.map( r => {
